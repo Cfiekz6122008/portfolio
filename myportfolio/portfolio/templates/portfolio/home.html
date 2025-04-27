@@ -1,0 +1,21 @@
+<section id="skills">
+    <h2>My Skills</h2>
+    <div class="skills">
+        {% for skill in skills %}
+        <div class="skill">
+            <span>{{ skill.name }}</span>
+            <div class="progress">
+                <div class="progress-bar" style="width: {{ skill.percentage }}%"></div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+<section id="contact">
+    <h2>Contact Me</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Send Message</button>
+    </form>
+</section>
