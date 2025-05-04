@@ -1,3 +1,5 @@
+{% load static %}
+
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
@@ -70,4 +72,134 @@ footer {
 .progress-bar {
     height: 100%;
     background: #35424a;
+}
+
+/* Градиент для прогресс-баров */
+.progress-bar.bg-gradient {
+    background: linear-gradient(90deg, #0d6efd, #0dcaf0);
+}
+
+/* Анимация для прогресс-баров */
+.progress-bar {
+    transition: width 1.5s ease-in-out;
+}
+
+/* Кастомные стили для карточек */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+/* Стили для герой секции */
+.display-4 {
+    background: linear-gradient(90deg, #0d6efd, #0dcaf0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+/* Кастомные стили для секции "Обо мне" */
+
+.about-section {
+    position: relative;
+    background: url('{% static "portfolio/images/about-bg.jpg" %}') no-repeat center center;
+
+
+
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.about-section .card:hover {
+    transform: translateY(-5px);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .about-section {
+        background-attachment: scroll;
+        padding: 60px 0;
+    }
+
+    .about-section .card-body {
+        padding: 1.5rem;
+    }
+}
+
+/* Затемнение фона для лучшей читаемости */
+.about-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 0;
+}
+
+/* Позиционирование контента поверх фона */
+.about-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+#about .card {
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.3s;
+}
+
+#about .card:hover {
+    transform: translateY(-5px);
+}
+
+/* Стили для бейджей технологий */
+.badge {
+    transition: all 0.3s;
+}
+
+.badge:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Анимация для прогресс-баров */
+.progress-bar {
+    transition: width 1.5s ease;
+}
+
+/* Отступы для секций */
+section {
+    padding: 80px 0;
+}
+
+/* Адаптивность для заголовков */
+@media (max-width: 768px) {
+    .display-4 {
+        font-size: 2.2rem;
+    }
+    .display-5 {
+        font-size: 1.8rem;
+    }
+}
+
+.animate {
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
