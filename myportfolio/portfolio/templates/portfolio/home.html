@@ -1,122 +1,433 @@
-{% extends 'portfolio/base.html' %}
-{% load static %}
-{% block content %}
-<style>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Портфолио Python-разработчика</title>
+    <style>
+        :root {
+            --black: #111;
+            --white: #f8f8f8;
+            --gray-dark: #333;
+            --gray-light: #ddd;
+            --accent: #000;
+        }
 
-.about-section {
-    position: relative;
-    min-height: 500px;
-    background: url('{% static "portfolio/images/about-bg.jpg" %}') no-repeat center center;
-    background-size: cover;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-.about-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 0;
-}
-</style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--white);
+            color: var(--black);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
 
-<!-- Секция "Обо мне" -->
-<!-- Секция "Обо мне" с фоновой картинкой -->
-<section id="about" class="about-section py-5 mb-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto">
-                <div class="card shadow-lg bg-white bg-opacity-90">
-                    <div class="card-body p-4 p-lg-5">
-                        <h1 class="display-4 fw-bold mb-4 text-primary">Обо Мне</h1>
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-                        <div class="card bg-light bg-opacity-75 mb-4 border-0">
-                            <div class="card-body">
-                                <h2 class="h4 fw-bold mb-3">Опыт</h2>
-                                <p class="card-text">Занимаюсь программированием более двух лет. Имею навыки такие как: работа с GitHub</p>
-                            </div>
-                        </div>
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-<div class="card bg-light bg-opacity-75 border-0">
-    <div class="card-body">
-        <h2 class="h4 fw-bold mb-3">Ключевые технологии</h2>
-        <div class="row row-cols-2 row-cols-md-4 g-4">
-            <!-- Карточка Django -->
-            <div class="col">
-                <div class="card h-100 border-0 shadow-sm tech-card">
-                    <div class="card-body text-center">
-                        <img src="{% static 'portfolio/images/django-icon.png' %}" alt="Django" class="tech-icon mb-3">
-                        <h5 class="card-title">Django</h5>
-                    </div>
-                </div>
-            </div>
+        /* Основные стили */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-            <!-- Карточка Python -->
-            <div class="col">
-                <div class="card h-100 border-0 shadow-sm tech-card">
-                    <div class="card-body text-center">
-                        <img src="{% static 'portfolio/images/python-icon.png' %}" alt="Python" class="tech-icon mb-3">
-                        <h5 class="card-title">Python</h5>
-                    </div>
-                </div>
-            </div>
+        header {
+            background: linear-gradient(135deg, var(--black), var(--gray-dark));
+            color: var(--white);
+            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.8s ease-out;
+        }
 
-            <!-- Карточка TKinter -->
-            <div class="col">
-                <div class="card h-100 border-0 shadow-sm tech-card">
-                    <div class="card-body text-center">
-                        <img src="{% static 'portfolio/images/tkinter-icon.png' %}" alt="TKinter" class="tech-icon mb-3">
-                        <h5 class="card-title">TKinter</h5>
-                    </div>
-                </div>
-            </div>
+        header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 75% 50%, rgba(255,255,255,0.1) 0%, transparent 50%);
+        }
 
-            <!-- Карточка GitHub -->
-            <div class="col">
-                <div class="card h-100 border-0 shadow-sm tech-card">
-                    <div class="card-body text-center">
-                        <img src="{% static 'portfolio/images/github-icon.png' %}" alt="GitHub" class="tech-icon mb-3">
-                        <h5 class="card-title">GitHub</h5>
-                    </div>
-                </div>
+        .header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            letter-spacing: -0.05em;
+        }
+
+        .lead {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        section {
+            padding: 5rem 0;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--black);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Карточки технологий */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .tech-card {
+            background: var(--white);
+            border: 1px solid var(--gray-light);
+            padding: 2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .tech-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border-color: var(--black);
+        }
+
+        .tech-card h4 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tech-card p {
+            color: var(--gray-dark);
+            font-size: 0.9rem;
+        }
+
+        /* Проекты */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background: var(--white);
+            border: 1px solid var(--gray-light);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .project-content {
+            padding: 2rem;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-description {
+            margin-bottom: 1.5rem;
+            color: var(--gray-dark);
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-tag {
+            background: var(--black);
+            color: var(--white);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline {
+            border: 1px solid var(--black);
+            color: var(--black);
+        }
+
+        .btn-outline:hover {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        /* Подвал */
+        footer {
+            background: var(--black);
+            color: var(--white);
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        footer p {
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-link {
+            color: var(--white);
+            font-size: 1.5rem;
+            transition: opacity 0.3s ease;
+        }
+
+        .social-link:hover {
+            opacity: 0.7;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .tech-grid, .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>Портфолио Python-разработчика</h1>
+                <p class="lead">Здравствуйте! Добро пожаловать на мою страницу. Здесь вы найдете информацию о моих ключевых навыках и опыте работы с Python.</p>
             </div>
         </div>
-    </div>
-</div>
+    </header>
+
+    <!-- Основное содержимое -->
+    <main class="container">
+        <!-- Обо мне -->
+        <section id="about">
+            <h2>Обо мне</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
+                <div>
+                    <h3>Образование</h3>
+                    <p>Магистр прикладной математики и информатики, более 5 лет опыта в веб-разработке и анализе данных.</p>
+                </div>
+                <div>
+                    <h3>Достижения</h3>
+                    <p>Успешные проекты и решения, внедренные в коммерческих приложениях и аналитике.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Навыки -->
+        <section id="skills">
+            <h2>Навыки</h2>
+
+            <h3>Языки программирования</h3>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <h4>Python</h4>
+                    <p>Эксперт, 5+ лет</p>
+                </div>
+                <div class="tech-card">
+                    <h4>JavaScript</h4>
+                    <p>Продвинутый</p>
+                </div>
+                <div class="tech-card">
+                    <h4>HTML/CSS</h4>
+                    <p>Продвинутый</p>
+                </div>
+            </div>
+
+            <h3>Фреймворки и базы данных</h3>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <h4>Django</h4>
+                    <p>Эксперт, 3+ года</p>
+                </div>
+                <div class="tech-card">
+                    <h4>Flask</h4>
+                    <p>Продвинутый, 2+ года</p>
+                </div>
+                <div class="tech-card">
+                    <h4>PostgreSQL</h4>
+                    <p>Продвинутый</p>
+                </div>
+            </div>
+
+            <h3>Инструменты и Data Science</h3>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <h4>Git</h4>
+                    <p>Продвинутый</p>
+                </div>
+                <div class="tech-card">
+                    <h4>Docker</h4>
+                    <p>Продвинутый</p>
+                </div>
+                <div class="tech-card">
+                    <h4>Pandas</h4>
+                    <p>Продвинутый</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Проекты -->
+        <section id="projects">
+            <h2>Проекты</h2>
+
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3 class="project-title">ToDo List на Django</h3>
+                        <p class="project-description">Веб-приложение для управления задачами, поддержка пользовательских аккаунтов и фильтров.</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Django</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">JavaScript</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="btn btn-outline">GitHub</a>
+                            <a href="#" class="btn btn-outline">Live Demo</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3 class="project-title">REST API на Flask</h3>
+                        <p class="project-description">Обработка и предоставление данных для мобильных приложений с безопасной аутентификацией.</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Flask</span>
+                            <span class="tech-tag">MongoDB</span>
+                            <span class="tech-tag">JWT</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="btn btn-outline">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3 class="project-title">Модель ML для акций</h3>
+                        <p class="project-description">Прогнозирование цен с точностью до 95% с использованием TensorFlow и Pandas.</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">TensorFlow</span>
+                            <span class="tech-tag">Pandas</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="btn btn-outline">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-content">
+                        <h3 class="project-title">Анализ продаж</h3>
+                        <p class="project-description">Визуализация и глубокий анализ данных с Matplotlib и Jupyter Notebook.</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Matplotlib</span>
+                            <span class="tech-tag">Seaborn</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="btn btn-outline">GitHub</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
-<!-- Секция "Навыки" -->
-<section id="skills" class="py-5 bg-light">
-    <div class="container">
-        <h2 class="text-center mb-5 display-5 fw-bold text-primary">Мои Навыки</h2>
-        <div class="row g-4">
-            {% for skill in skills %}
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="card-title mb-0 fw-bold">{{ skill.name }}</h5>
-                            <span class="badge bg-primary rounded-pill fs-6">{{ skill.percentage }}%</span>
-                        </div>
-                        <div class="progress" style="height: 8px;">
-                            <div class="progress-bar bg-primary" role="progressbar"
-                                 style="width: {{ skill.percentage }}%"
-                                 aria-valuenow="{{ skill.percentage }}"
-                                 aria-valuemin="0"
-                                 aria-valuemax="100">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        </section>
+    </main>
+
+    <!-- Подвал -->
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#" class="social-link">GitHub</a>
+                <a href="#" class="social-link">LinkedIn</a>
+                <a href="#" class="social-link">Telegram</a>
             </div>
-            {% endfor %}
+            <p>Следите за моими проектами и профессиональным развитием</p>
+            <p>© 2023 Python-разработчик. Все права защищены.</p>
         </div>
-    </div>
-</section>
-{% endblock %}
+    </footer>
+</body>
+</html>

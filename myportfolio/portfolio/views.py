@@ -1,22 +1,26 @@
-from django.shortcuts import render, redirect
-from .forms import ContactForm
-from .models import Project, Skill
+from django.shortcuts import render
+from .models import Education, Technology, Achievement, Project
 
 
 def home(request):
+    education = Education.objects.first()
+    technologies = Technology.objects.all()
+    achievements = Achievement.objects.all()
     projects = Project.objects.all()
-    skills = Skill.objects.all()
 
-    if request.method == 'POST':
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    else:
-        form = ContactForm()
+    tech_categories = {
+        'backend': technologies.filter(category='backend'),
+        'frontend': technologies.filter(category='frontend'),
+        'database': technologies.filter(category='database'),
+        'devops': technologies.filter(category='devops'),
+        'ds': technologies.filter(category='ds'),
+    }
 
-    return render(request, 'portfolio/home.html', {
+    context = {
+        'education': education,
+        'tech_categories': tech_categories,
+        'achievements': achievements,
         'projects': projects,
-        'skills': skills,
-        'form': form
-    })
+    }
+
+    return render(request, 'portfolio/home.html', context)
